@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Salary to LPA Calculator</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .calculator {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 35px;
+        width: 100%;
+        max-width: 400px;
+        color: #fff;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .calculator h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 26px;
+    }
+
+    .calculator p {
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 25px;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+    }
+
+    .input-group input::placeholder {
+        color: #999;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ff9966, #ff5e62);
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .result {
+        margin-top: 25px;
+        padding: 18px;
+        border-radius: 15px;
+        background: rgba(255,255,255,0.2);
+        text-align: center;
+        font-size: 18px;
+        display: none;
+    }
+
+    .result span {
+        font-size: 26px;
+        font-weight: bold;
+        display: block;
+        margin-top: 5px;
+        color: #ffeb3b;
+    }
+
+    .icon {
+        text-align: center;
+        font-size: 45px;
+        margin-bottom: 15px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+    <div class="icon">💰</div>
+    <h1>Salary to LPA</h1>
+    <p>Convert your monthly salary into Lakhs Per Annum</p>
+
+    <div class="input-group">
+        <label>Monthly Salary (₹)</label>
+        <input type="number" id="monthlySalary" placeholder="Enter monthly salary">
+    </div>
+
+    <button onclick="calculateLPA()">Calculate LPA</button>
+
+    <div class="result" id="result">
+        Your Annual Package
+        <span id="lpaValue">0 LPA</span>
+    </div>
+</div>
+
+<script>
+    function calculateLPA() {
+        const monthly = document.getElementById("monthlySalary").value;
+        const resultBox = document.getElementById("result");
+        const lpaValue = document.getElementById("lpaValue");
+
+        if (monthly === "" || monthly <= 0) {
+            alert("Please enter a valid monthly salary");
+            return;
+        }
+
+        const annualSalary = monthly * 12;
+        const lpa = (annualSalary / 100000).toFixed(2);
+
+        lpaValue.textContent = lpa + " LPA";
+        resultBox.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
