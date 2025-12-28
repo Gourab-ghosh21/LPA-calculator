@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Career Growth Estimator</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        background: radial-gradient(circle at top, #1f2933, #0b0f1a);
+        color: #fff;
+        font-family: Poppins, sans-serif;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    .box {
+        max-width: 600px;
+        width: 100%;
+        background: rgba(255,255,255,0.05);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(0,234,255,.25);
+    }
+    h1 { text-align: center; }
+    label { font-size: 13px; margin-top: 10px; display: block; }
+    input, select {
+        width: 100%;
+        padding: 12px;
+        margin-top: 6px;
+        border-radius: 12px;
+        background: rgba(0,0,0,.4);
+        color: white;
+        border: none;
+    }
+    button {
+        width: 100%;
+        margin-top: 15px;
+        padding: 14px;
+        border-radius: 14px;
+        border: none;
+        font-weight: bold;
+        background: linear-gradient(135deg,#00eaff,#6366f1);
+        cursor: pointer;
+    }
+    .ai-result {
+        margin-top: 20px;
+        background: rgba(255,255,255,.08);
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+    }
+    .score {
+        font-size: 32px;
+        color: #00eaff;
+    }
+    canvas { margin-top: 25px; }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1>AI Career Growth Estimator</h1>
+
+    <label>Current Monthly Salary (₹)</label>
+    <input type="number" id="salary" placeholder="50000">
+
+    <label>Skill Level</label>
+    <select id="skill">
+        <option value="1">Beginner</option>
+        <option value="1.5">Intermediate</option>
+        <option value="2">Advanced</option>
+        <option value="3">Expert</option>
+    </select>
+
+    <label>Industry Growth</label>
+    <select id="industry">
+        <option value="1">Low Growth</option>
+        <option value="2">Medium Growth</option>
+        <option value="3">High Growth (AI / Tech)</option>
+    </select>
+
+    <label>Performance Rating</label>
+    <select id="performance">
+        <option value="1">Average</option>
+        <option value="2">Good</option>
+        <option value="3">Top Performer</option>
+    </select>
+
+    <label>Job Switch Probability</label>
+    <select id="switch">
+        <option value="0">Low</option>
+        <option value="10">Medium</option>
+        <option value="25">High</option>
+    </select>
+
+    <button onclick="estimate()">Estimate Career Growth</button>
+
+    <div class="ai-result" id="result"></div>
+
+    <canvas id="chart"></canvas>
+</div>
+
+<script>
+let chart;
+
+function estimate() {
+    const monthly = Number(salary.value);
+    if (!monthly) return alert("Enter salary");
+
+    const baseIncrement = 8;
+    const skillBonus = skill.value * 2;
+    const industryBonus = industry.value * 2;
+    const performanceBonus = performance.value * 2;
+    const switchBonus = Number(switch.value);
+
+    const aiGrowth =
+        baseIncrement +
+        skillBonus +
+        industryBonus +
+        performanceBonus +
+        switchBonus * Math.random() / 10;
+
+    let annual = monthly * 12;
+    let data = [];
+    let labels = [];
+
+    for (let i = 1; i <= 10; i++) {
+        data.push((annual / 100000).toFixed(2));
+        labels.push("Year " + i);
+        annual += annual * (aiGrowth / 100);
+    }
+
+    const score = Math.min(95, Math.round(aiGrowth * 2));
+
+    result.innerHTML = `
+        <h3>AI Growth Score</h3>
+        <div class="score">${score}/100</div>
+        <p>Estimated 10-Year Package</p>
+        <strong>${data[data.length - 1]} LPA</strong>
+    `;
+
+    draw(labels, data);
+}
+
+function draw(labels, data) {
+    const ctx = chart?.ctx || document.getElementById("chart").getContext("2d");
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels,
+            datasets: [{
+                label: "AI Estimated Growth (LPA)",
+                data,
+                borderColor: "#00eaff",
+                backgroundColor: "rgba(0,234,255,.2)",
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "#fff" } } },
+            scales: {
+                x: { ticks: { color: "#9ca3af" } },
+                y: { ticks: { color: "#9ca3af" } }
+            }
+        }
+    });
+}
+</script>
+
+</body>
+</html>
