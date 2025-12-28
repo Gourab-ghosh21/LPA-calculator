@@ -124,3 +124,40 @@ canvas { margin-top: 30px; }
             <option value="2">Advanced</option>
             <option value="3">Expert</option>
         </select>
+<label>Industry Growth</label>
+        <select id="industryB">
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High (Tech/AI)</option>
+        </select>
+
+        <label>Performance</label>
+        <select id="perfB">
+            <option value="1">Average</option>
+            <option value="2">Good</option>
+            <option value="3">Top Performer</option>
+        </select>
+
+        <label>Job Switch Probability</label>
+        <select id="switchB">
+            <option value="0">Low</option>
+            <option value="10">Medium</option>
+            <option value="25">High</option>
+        </select>
+
+        <div class="result" id="resB"></div>
+    </div>
+
+</div>
+
+<button onclick="compare()">Compare Career Paths</button>
+
+<canvas id="chart"></canvas>
+</div>
+
+<script>
+let chart;
+
+function growthRate(skill, industry, perf, sw) {
+    return 8 + skill*2 + industry*2 + perf*2 + (sw*Math.random()/10);
+}
